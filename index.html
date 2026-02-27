@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>语言大师 - 商务英语/日语/货代英语学习</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#58CC02">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="语言大师">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%2358CC02' width='192' height='192' rx='24'/%3E%3Ctext x='96' y='120' font-size='80' text-anchor='middle' fill='white'%3E��%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- 顶部导航栏 -->
+        <nav class="top-nav">
+            <div class="nav-brand">
+                <span class="logo">🎯</span>
+                <span class="brand-text">语言大师</span>
+            </div>
+            <div class="nav-stats">
+                <div class="stat-item">
+                    <span class="stat-icon">🔥</span>
+                    <span class="stat-value" id="streak-count">0</span>
+                    <span class="stat-label">天连胜</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">💎</span>
+                    <span class="stat-value" id="gem-count">0</span>
+                    <span class="stat-label">宝石</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">❤️</span>
+                    <span class="stat-value" id="heart-count">5</span>
+                    <span class="stat-label">体力</span>
+                </div>
+            </div>
+            <div class="nav-user">
+                <div class="level-badge">
+                    <span class="level-icon">⭐</span>
+                    <span class="level-text" id="user-level">1</span>
+                </div>
+                <div class="xp-bar">
+                    <div class="xp-progress" id="xp-progress"></div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 主菜单界面 -->
+        <div class="screen active" id="menu-screen">
+            <div class="menu-container">
+                <!-- 左侧课程选择 -->
+                <div class="course-sidebar">
+                    <h2 class="sidebar-title">选择课程</h2>
+                    <div class="course-list">
+                        <div class="course-item active" data-course="business-english">
+                            <div class="course-icon">💼</div>
+                            <div class="course-info">
+                                <h3>商务英语</h3>
+                                <p>职场沟通、商务谈判</p>
+                                <div class="course-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="progress-text">0/50 单元</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-item" data-course="business-japanese">
+                            <div class="course-icon">🗾</div>
+                            <div class="course-info">
+                                <h3>商务日语</h3>
+                                <p>日本商务礼仪、敬语</p>
+                                <div class="course-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="progress-text">0/50 单元</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-item" data-course="freight-english">
+                            <div class="course-icon">🚢</div>
+                            <div class="course-info">
+                                <h3>货代英语</h3>
+                                <p>国际物流、货运代理</p>
+                                <div class="course-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="progress-text">0/50 单元</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 中间学习路径 -->
+                <div class="learning-path">
+                    <div class="path-header">
+                        <h2 id="current-course-title">商务英语</h2>
+                        <p id="current-course-desc">掌握职场英语，提升商务沟通能力</p>
+                    </div>
+                    <div class="path-container" id="path-container">
+                        <!-- 动态生成的学习节点 -->
+                    </div>
+                </div>
+
+                <!-- 右侧功能面板 -->
+                <div class="feature-panel">
+                    <div class="feature-card daily-challenge">
+                        <h3>📅 每日挑战</h3>
+                        <p>完成今日任务获得额外奖励</p>
+                        <div class="challenge-progress">
+                            <span id="daily-progress">0/3</span>
+                        </div>
+                        <button class="btn btn-primary" id="daily-challenge-btn">开始挑战</button>
+                    </div>
+                    
+                    <!-- 新增功能按钮 -->
+                    <div class="feature-card quick-actions">
+                        <h3>⚡ 快捷功能</h3>
+                        <div class="feature-buttons">
+                            <button class="feature-btn" id="voice-practice-btn">
+                                <span class="icon">🎤</span>
+                                <span class="label">语音练习</span>
+                            </button>
+                            <button class="feature-btn" id="pk-mode-btn">
+                                <span class="icon">⚔️</span>
+                                <span class="label">PK对战</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card ranking">
+                        <h3>🏆 排行榜</h3>
+                        <div class="ranking-list" id="ranking-list">
+                            <!-- 动态生成 -->
+                        </div>
+                    </div>
+                    <div class="feature-card achievements">
+                        <h3>🎖️ 成就</h3>
+                        <div class="achievement-grid" id="achievement-grid">
+                            <!-- 动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 学习界面 -->
+        <div class="screen" id="lesson-screen">
+            <div class="lesson-container">
+                <!-- 进度条 -->
+                <div class="lesson-progress-bar">
+                    <div class="lesson-progress-fill" id="lesson-progress"></div>
+                    <button class="btn-close-lesson" id="close-lesson">✕</button>
+                </div>
+
+                <!-- 题目区域 -->
+                <div class="question-area" id="question-area">
+                    <!-- 动态生成题目 -->
+                </div>
+
+                <!-- 答案反馈区域 -->
+                <div class="feedback-area hidden" id="feedback-area">
+                    <div class="feedback-content" id="feedback-content"></div>
+                </div>
+
+                <!-- 底部操作栏 -->
+                <div class="lesson-footer">
+                    <button class="btn btn-secondary hidden" id="skip-btn">跳过</button>
+                    <button class="btn btn-primary" id="check-btn">检查</button>
+                    <button class="btn btn-primary hidden" id="continue-btn">继续</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 结算界面 -->
+        <div class="screen" id="result-screen">
+            <div class="result-container">
+                <div class="result-animation" id="result-animation">
+                    <div class="stars" id="result-stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                    </div>
+                </div>
+                <h2 class="result-title" id="result-title">完美!</h2>
+                <div class="result-stats">
+                    <div class="result-stat">
+                        <span class="stat-label">获得经验</span>
+                        <span class="stat-value" id="result-xp">+20 XP</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="stat-label">获得宝石</span>
+                        <span class="stat-value" id="result-gems">+5 💎</span>
+                    </div>
+                    <div class="result-stat">
+                        <span class="stat-label">准确率</span>
+                        <span class="stat-value" id="result-accuracy">100%</span>
+                    </div>
+                </div>
+                <div class="result-actions">
+                    <button class="btn btn-primary" id="continue-study-btn">继续学习</button>
+                    <button class="btn btn-secondary" id="back-menu-btn">返回主页</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 商店界面 -->
+        <div class="screen" id="shop-screen">
+            <div class="shop-container">
+                <h2>💎 宝石商店</h2>
+                <div class="shop-grid" id="shop-grid">
+                    <!-- 动态生成商品 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 音效文件 -->
+    <audio id="sound-correct" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZSA0PVanu8LdnHgU1kNbxz4AzBhxqv+zplkcODVGm5O+4ZSAEMYrO89GFNwYdcfDr4ZdJDQtPp+XysWUeBjiS1/LNfi0GI33R8tOENAcdcO/r4phJDQxPp+XyxGUhBjqT1/PQfS4GI3/R8tSFNwYdcfDr4plHDAtQp+TwxmUgBDeOzvPVhjYGHG3A7+SaSQ0MTKjl8sZmIAU2jc7z1YU1Bhxwv+zmm0gNC1Gn5O/EZSAFNo/M89CEMwYccPDs4ppIDQtRp+TvvWUfBTiOz/PShjUGG3Dw7OKbSA0LUqjl8b1kHwU3jM/z0oU1Bxtw8OzhmUgNC1Ko5fG+ZSAF" type="audio/wav">
+    </audio>
+    <audio id="sound-wrong" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZSA0PVanu8LdnHgU1kNbxz4AzBhxqv+zplkcODVGm5O+4ZSAEMYrO89GFNwYdcfDr4ZdJDQtPp+XysWUeBjiS1/LNfi0GI33R8tOENAcdcO/r4phJDQxPp+XyxGUhBjqT1/PQfS4GI3/R8tSFNwYdcfDr4plHDAtQp+TwxmUgBDeOzvPVhjYGHG3A7+SaSQ0MTKjl8sZmIAU2jc7z1YU1Bhxwv+zmm0gNC1Gn5O/EZSAFNo/M89CEMwYccPDs4ppIDQtRp+TvvWUfBTiOz/PShjUGG3Dw7OKbSA0LUqjl8b1kHwU3jM/z0oU1Bxtw8OzhmUgNC1Ko5fG+ZSAF" type="audio/wav">
+    </audio>
+
+    <script src="courses.js"></script>
+    <script src="game.js"></script>
+    <script>
+        // 注册 Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('Service Worker 注册成功:', registration);
+                    })
+                    .catch((error) => {
+                        console.log('Service Worker 注册失败:', error);
+                    });
+            });
+        }
+        
+        // 请求通知权限
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission().then((permission) => {
+                if (permission === 'granted') {
+                    console.log('通知权限已授予');
+                }
+            });
+        }
+        
+        // 添加到主屏幕提示
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            console.log('可以添加到主屏幕');
+        });
+    </script>
+</body>
+</html>
